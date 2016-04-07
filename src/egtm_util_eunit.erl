@@ -121,8 +121,8 @@ order_fun (Mod, Gvn, Subs, indirection) ->
 perform_speed ([]) -> ok;
 perform_speed ([{Fun, Count, Label}|T]) when is_function (Fun, 0) ->
   R = egtm_util_eunit:tc_avg (Fun, Count),
-  ?debugMsg (?debugFmt ("~n %%%%% Erlang ~s : ~p",
-      [string:left (Label, 30), R])),
+  %%?debugMsg (?debugFmt ("~n %%%%% Erlang ~s : ~p",
+  %%    [string:left (Label, 30), R])),
   perform_speed (T).
 
 rnd_str_fun () ->

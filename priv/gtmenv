@@ -1,13 +1,29 @@
 #!/bin/sh
-
+#set -x
 if [ ! -d "${EGTM_PRIV}" ] ; then
   SWD=`dirname $0` ; CWD=`pwd`
   cd ${SWD} ; SWD=`pwd` ; cd ${CWD}
   export EGTM_PRIV=${SWD}
 fi
 
+export EGTM_DATA=$(echo ${EGTM_PRIV}| awk -F'lib/egtm' '/lib\/egtm/{print $1"data"}')
+A=$(echo ${EGTM_DATA}| grep "data$")
+if [ -z "$A" ]; then 
+	export EGTM_DATA=$(echo ${EGTM_PRIV}| awk -F'deps/egtm' '/deps\/egtm/{print $1"priv/data"}')
+fi
+
 export EGTM_TMP=/tmp
-export EGTM_GBLS=${EGTM_PRIV}/gbls
+
+if [ -d ${EGTM_DATA} ]; then
+   export EGTM_GBLS=${EGTM_DATA}/gbls
+   mkdir -p ${EGTM_GBLS}
+else
+   export EGTM_DATA=${CWD}/priv/data
+   export EGTM_GBLS=${EGTM_DATA}/gbls
+   mkdir -p ${EGTM_DATA}
+fi
+
+
 export EGTM_CALLINTAB=${EGTM_PRIV}/calltab.ci
 
 # Database files
@@ -15,7 +31,7 @@ export EGTM_DB_DEFAULT=${EGTM_GBLS}/egtm.dat
 export EGTM_DB_BIG=${EGTM_GBLS}/egtmbig.dat
 
 # Standard GT.M settings
-export gtm_dist=/usr/lib/fis-gtm/current
+export gtm_dist=/opt/fis-gtm/V6.0-003_x8664
 export gtmroutines="${gtm_dist} ${EGTM_PRIV}/rtns ."
 export gtmgbldir="${EGTM_GBLS}/egtm.gld"
 export gtm_log=${EGTM_TMP}
@@ -24,7 +40,7 @@ export gtm_badchar="NO"
 export gtm_noundef="YES"
 export gtm_nocenable="YES"
 export gtm_prompt="IDEA\$EGTM>"
-export gtm_icu_version=4.8
+export gtm_icu_version=5.2
 export gtm_chset=UTF-8
 export LC_CTYPE=en_US.UTF-8
 
