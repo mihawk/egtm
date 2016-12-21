@@ -11,24 +11,24 @@ if [ -f ${EGTM_DB_DEFAULT:-""} ] ; then
 fi
 
 $gtm_dist/mumps -r ^GDE << EOF
-D-R DEFAULT 
-D-S DEFAULT
-T-S -Bloc=4096
-T-S -Lock=40
-T-S -Glob=4096
-T-S -Alloc=1000
-T-S -Ext=3000
-T-R -Rec=4080
-T-R -Key=255
-T-R -N=AL
-T-R -J=BE
-A-S EGTM -F="\$EGTM_DB_DEFAULT"
-A-S EGTMBIG -BLOCK=32256 -F="\$EGTM_DB_BIG"
-A-R EGTM -D=EGTM
-A-R EGTMBIG -REC=32240 -D=EGTMBIG
+D -R DEFAULT 
+D -S DEFAULT
+T -S -Bloc=4096
+T -S -Lock=40
+T -S -Glob=4096
+T -S -Alloc=1000
+T -S -Ext=3000
+T -R -Rec=4080
+T -R -Key=255
+T -R -N=AL
+T -R -J=BE
+A -S EGTM -F="\$EGTM_DB_DEFAULT"
+A -S EGTMBIG -BLOCK=32256 -F="\$EGTM_DB_BIG"
+A -R EGTM -D=EGTM
+A -R EGTMBIG -REC=32240 -D=EGTMBIG
 LOC -R=EGTM
-C-N * -R=EGTM
-A-N Big* -R=EGTMBIG
+C -N * -R=EGTM
+A -N Big* -R=EGTMBIG
 SH -A
 V -A
 E
